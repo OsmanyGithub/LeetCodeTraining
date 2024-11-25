@@ -1,35 +1,38 @@
 class MinStack {
-    private List<Integer> list;
-
+    private List<int[]> stack;
+    
     public MinStack() {
-        list = new ArrayList<>();
-        
+        stack = new ArrayList<>();
     }
     
     public void push(int val) {
-        list.add(val);        
+        // If stack is Empty, current minimum is the value itself
+        if (stack.isEmpty()){
+           stack.add(new int []{val, val}); 
+        }
+        // Otherwise, compare the current value with the previous minimum
+        else{
+            int currentMin = Math.min(val, stack.get(stack.size() - 1)[1]);
+            stack.add(new int[]{val, currentMin});
+            
+        }
+        
+        
     }
     
     public void pop() {
-        if (!list.isEmpty()){
-            list.remove(list.size() - 1);
+        if (!stack.isEmpty()){
+            stack.remove(stack.size() - 1);
         }
-        
         
     }
     
     public int top() {
-        return list.get(list.size() - 1);
-        
+        return stack.get(stack.size() - 1)[0];
     }
     
     public int getMin() {
-        int min = Integer.MAX_VALUE;
-        for (int n: list){
-            min = Math.min(n, min);
-            
-        }
-        return min;
+        return stack.get(stack.size() - 1)[1];
         
     }
 }
