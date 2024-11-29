@@ -20,28 +20,28 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-       // Edge case null node
+       // Edge case: If the input graph is empty
         if (node == null) return null;
         
-        // Use a HashMap for keep track of the visited node
+        // Map to keep track of the visited node and their clones
         Map<Node, Node> visited = new HashMap<>();
         
-        // Recursively visited nodes and neighbors and return node
+        // Start the DFS and return the cloned graph
         return dfs(node, visited);
     }
     
     // Helper function DFS
     private Node dfs(Node node, Map<Node, Node> visited){
-        // If node has been already visited return
+        // If node has already been cloned, return the clone
         if (visited.containsKey(node)) return visited.get(node);
         
-        // Create instance of the node clone
+        // Clone the current clone
         Node clone = new Node(node.val);
         
         // Store Node in the map
         visited.put(node, clone);
         
-        // Recursively visit nodes and neighbors
+        // Recursively clone all the neighbors
         for (Node neighbor: node.neighbors){
             clone.neighbors.add(dfs(neighbor, visited));
         }
