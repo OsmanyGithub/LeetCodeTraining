@@ -10,19 +10,18 @@
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
-        // Initialize three pointers
-        ListNode prev = null;
-        ListNode current = head;
-        ListNode next = null;
+        // Base case: if head is null or only one node, return head
+        if (head == null || head.next == null) return head;
         
-        // Iterate through the list
-        while(current != null){
-            next = current.next; // Store the next node
-            current.next = prev; // Reverse the current node's pointer
-            prev = current;      // Move prev to the current node
-            current = next;      // Move current pointer
-        }
-        // At the end, prev is the new head        
-        return prev; 
+        // Reverse the rest of the list       
+        ListNode reversedList = reverseList(head.next);
+        
+        // Set the next node's next pointer to the current node      
+        head.next.next = head; 
+        
+        // Terminate the reversed list, to brake original node's links
+        head.next = null;
+        
+        return reversedList;      
     }
 }
