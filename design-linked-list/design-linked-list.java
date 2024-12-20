@@ -1,31 +1,31 @@
 class MyLinkedList {
     private class Node{
         int val;
-        Node prev;
-        Node next;
+        Node prev, next;
         
         public Node(int val){
             this.val = val;
         }
     }
-    private Node head;
-    private Node tail;
+    
+    private Node head, tail;
     private int size;
 
     public MyLinkedList() {
         head = new Node(0);
         tail = new Node(0);
-        this.size = 0;
-        
         head.next = tail;
         tail.prev = head;
+        size = 0;
         
     }
     
     public int get(int index) {
-        Node current = getNodeAt(index);
+        if (index < 0 || index >= size) return -1; // Invalid index
         
-        return current == null ? -1 : current.val;
+        return getNodeAt(index).val;
+        
+        
     }
     
     public void addAtHead(int val) {
@@ -35,46 +35,40 @@ class MyLinkedList {
         head.next = newNode;
         newNode.prev = head;
         
-        if (nextNode != null) { // When the list is not empty
-            newNode.next = nextNode;
-            nextNode.prev = newNode;
-        }
+        newNode.next = nextNode;
+        nextNode.prev = newNode;
         
-        else{
-            newNode.next = tail;
-            tail.prev = newNode;
-        }
-        
-        size ++;
-        
+        size++;      
     }
     
     public void addAtTail(int val) {
         Node newNode = new Node(val);
         Node prevNode = tail.prev;
         
-        prevNode.next = newNode;
-        newNode.prev = prevNode;
-        
-        newNode.next = tail;
         tail.prev = newNode;
+        newNode.next = tail;
+        
+        newNode.prev = prevNode;
+        prevNode.next = newNode;
         
         size++;
-        
     }
     
     public void addAtIndex(int index, int val) {
-        if (index < 0 || index > size) return; // Invalid index
+        if (index > size) return; // Invalid index
         
-        if (index == 0){
+        if (index <= 0){
             addAtHead(val);
             return;
         }
-        
+              
         if (index == size){
             addAtTail(val);
             return;
         }
+        
+        
+        
         Node newNode = new Node(val);
         Node prevNode = getNodeAt(index - 1);
         Node nextNode = prevNode.next;
@@ -85,34 +79,41 @@ class MyLinkedList {
         newNode.next = nextNode;
         nextNode.prev = newNode;
         
-        size ++;
+        size++;
         
     }
     
     public void deleteAtIndex(int index) {
-        Node deleteNode = getNodeAt(index);
-        if (deleteNode == null) return; // Invalid index
+        if (index < 0 || index >= size) return; // Invalid index
         
-        Node prevNode = deleteNode.prev;
-        Node nextNode = deleteNode.next;
+        Node nodeToDelete = getNodeAt(index);
+        
+        Node prevNode = nodeToDelete.prev;
+        Node nextNode = nodeToDelete.next;
         
         prevNode.next = nextNode;
         nextNode.prev = prevNode;
         
-        size--;
+        size --;
+        
     }
     
-    // Helper function getNodeAt
     private Node getNodeAt(int index){
-        if (index < 0 || index >= size){
-            return null; // Invalid index
-        }
-        Node current = head.next;
-
-        for (int i = 0; i < index;i ++){
-            current = current.next;
+        Node current;
+        if (index < size / 2){
+            // Start from head
+            current = head.next;
+            for (int i = 0; i < index; i ++){
+                current = current.next;
+            }
         }
         
+        else{
+            current = tail.prev;
+            for (int i = size - 1; i > index; i--){
+                current = current.prev;
+            }
+        }
         return current;
     }
 }
