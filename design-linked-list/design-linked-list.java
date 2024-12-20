@@ -17,15 +17,11 @@ class MyLinkedList {
         head.next = tail;
         tail.prev = head;
         size = 0;
-        
     }
     
     public int get(int index) {
         if (index < 0 || index >= size) return -1; // Invalid index
-        
-        return getNodeAt(index).val;
-        
-        
+        return getNodeAt(index).val; 
     }
     
     public void addAtHead(int val) {
@@ -98,6 +94,7 @@ class MyLinkedList {
         
     }
     
+    // Helper function to get a node    
     private Node getNodeAt(int index){
         Node current;
         if (index < size / 2){
@@ -109,6 +106,7 @@ class MyLinkedList {
         }
         
         else{
+            // Start from tail
             current = tail.prev;
             for (int i = size - 1; i > index; i--){
                 current = current.prev;
