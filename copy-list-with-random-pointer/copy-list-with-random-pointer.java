@@ -1,4 +1,6 @@
-/*class Node {
+/*
+// Definition for a Node.
+class Node {
     int val;
     Node next;
     Node random;
@@ -13,41 +15,45 @@
 
 class Solution {
     public Node copyRandomList(Node head) {
-        if (head == null) {
-            return null;
-        }
-
+        if (head == null) return null;
+        
         // Step 1: Interweave the list with copied nodes
         Node current = head;
-        while (current != null) {
+        while(current != null){
             Node copy = new Node(current.val);
-            copy.next = current.next;
+            
+            // Insert copied node in the original list
+            copy.next = current.next; 
             current.next = copy;
-            current = copy.next;
+            
+            current = copy.next; // Move to the next node
         }
-
-        // Step 2: Assign random pointers to the copied nodes
+        
+        // Step 2: Assing the random pointers to the copied nodes
         current = head;
-        while (current != null) {
-            if (current.random != null) {
+        while(current != null){
+            if(current.random != null){
                 current.next.random = current.random.next;
             }
-            current = current.next.next;
+            current = current.next.next; // Skip the copied node
         }
-
+        
         // Step 3: Separate the original and copied lists
         current = head;
         Node dummy = new Node(0);
-        Node copyCurrent = dummy;
-
-        while (current != null) {
-            copyCurrent.next = current.next;
-            current.next = current.next.next;
-
-            copyCurrent = copyCurrent.next;
+        Node dummyPointer = dummy;
+        
+        while(current != null){
+            dummyPointer.next = current.next; // Connect copied pointer
+            
+            // Remove copied node from the original list
+            current.next = current.next.next; 
+            
+            // Move both pointers
+            dummyPointer = dummyPointer.next;
             current = current.next;
         }
-
-        return dummy.next;
+        
+        return dummy.next; // Return the head of the copied list
     }
 }
