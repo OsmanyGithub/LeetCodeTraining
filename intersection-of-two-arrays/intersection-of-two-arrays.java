@@ -1,33 +1,37 @@
 class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
-        // Compare arrays to get the largest and shortest array
-        int [] shortestArray = (nums1.length < nums2.length) ? nums1 : nums2;
-        int [] largestArray = (nums1.length < nums2.length) ? nums2 : nums1;
+        // Sort both arrays
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
         
-        // Create the Set seen to store values of the shortest array        
-        Set<Integer> seen = new HashSet<>();
-        for (int n: shortestArray){
-            seen.add(n);
-        }
+        // Create a list to store the intersections        
+        ArrayList<Integer> list = new ArrayList<>();
         
-        // Create the Set intersection to store the numbers that appears in both arrays         
-        Set<Integer> intersection = new HashSet<>();
-        for (int n: largestArray){
-            if (seen.contains(n)){
-                intersection.add(n);
+        // Use two pointers
+        int i = 0, j = 0;
+        
+        while (i < nums1.length && j < nums2.length){
+            if (nums1[i] == nums2[j]){ 
+                // Add the number if not already included
+                if (list.isEmpty() || list.get(list.size() -1) != nums1[i]){
+                    list.add(nums1[i]);
+                }
+                i ++;
+                j ++;
             }
+            
+            // Otherwise move the pointer of the smaller number
+            else if(nums1[i] < nums2[j]) i++;
+            else j++;
         }
         
-        // Get the size of intersection       
-        int size = intersection.size(); 
-        // Create the Array result for store all the numbers of intersection
-        int [] result = new int[size]; 
+        // Create the result array
+        int size = list.size();
+        int [] result = new int[size];
         
-        // Add all numbers of Set intersection into the Array result
-        int i = 0;
-        for (int n: intersection){
-            result[i] = n;
-            i++;
+        // Copy the numbers from the list to the array
+        for (int k = 0; k < size; k++){
+            result[k] = list.get(k);
         }
         
         return result;
