@@ -1,22 +1,28 @@
 class Solution {
     public boolean isHappy(int n) {
-        // Use a Set to track numbers we've seen to detect cycles
-        Set<Integer> seen = new HashSet<>();
+       // Use two pointers (slow and fast to detect cycles)
+        int slow = n;
+        int fast = getNext(n);
         
-        while(n != 1 && !seen.contains(n)){
-            seen.add(n); // Mark the numbers as seen
-            
-            int sum = 0; 
-            while(n > 0){
-                int digit = n % 10;   // Extract the last digit
-                sum += digit * digit; // Add the squares of the digit to the sum
-                n /= 10;              // Remove the last digit 
-            }
-            
-            n = sum; // Update n to the sum of squares
+        // Continew until we find 1 or detect a cycle
+        while (fast != 1 && slow != fast){
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
         }
         
-        // Return true if we end at 1, false otherwise        
-        return n == 1; 
+        // If fast reaches 1, the number is happy
+        return fast == 1;
+    }
+    
+    // Helper function to calculate the sum of the squares of digits    
+    private int getNext(int number){
+        int sum = 0;
+        while(number > 0){
+            int digit = number % 10;   // Extract the last digit
+            sum += digit * digit;      // Add the square of digit to the sum
+            number /= 10;              // Remove the last digit
+        }
+        
+        return sum;
     }
 }
