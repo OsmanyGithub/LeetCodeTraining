@@ -14,24 +14,15 @@ class Solution {
             char charS = s.charAt(i);
             char charT = t.charAt(i);
             
-            // Check for match            
-            if (mapST.containsKey(charS)){
-                if (mapST.get(charS) != charT){
-                    return false;
-                }
+            // Check consistency in both mapping
+            if (mapST.containsKey(charS) && mapST.get(charS) != charT || 
+               mapTS.containsKey(charT) && mapTS.get(charT) != charS){
+                return false;
             }
-            // Add current characters to the mapST
+            
+            // Add mappings
             mapST.put(charS, charT);
-            
-            // Check for match 
-            if (mapTS.containsKey(charT)){
-                if (mapTS.get(charT) != charS){
-                    return false;
-                }
-            }
-            
-            // Add current characters to the mapTS            
-            mapTS.put(charT, charS);
+            mapTS.put(charT, charS);          
         }
         
         return true;
