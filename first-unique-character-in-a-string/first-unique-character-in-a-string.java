@@ -7,17 +7,15 @@ class Solution {
             map.put(c, map.getOrDefault(c, 0) + 1);
         }
         
-        int index = -1;
-        
         for(int i = 0; i < s.length(); i++){
             char c = s.charAt(i);
             if(map.get(c) == 1){
-                index = i;
-                break;
+                return i;
+                
                 
             }
         }
         
-        return index;
+        return -1;
     }
 }
