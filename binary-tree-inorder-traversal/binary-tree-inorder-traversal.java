@@ -16,10 +16,20 @@
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root != null){
-            result.addAll(inorderTraversal(root.left)); // Traverse the left subtree
-            result.add(root.val); // Visite the Node without left child
-            result.addAll(inorderTraversal(root.right)); // Traverse the right subtree
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode current = root;
+        
+        while(current != null || !stack.isEmpty()){
+            while(current != null){
+                stack.push(current); 
+                current = current.left; // Traverse the left subtree
+            }
+            
+            // current is null, start to pop the stack
+            current = stack.pop();
+            result.add(current.val); // Visite the node
+            
+            current = current.right; // Traverse the right subtree
         }
         
         return result;
