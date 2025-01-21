@@ -16,15 +16,12 @@
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        inorderHelper(root, result);
-        return result;
-    }
-    
-    private void inorderHelper(TreeNode node, List<Integer> list){
-        if (node == null) return;
+        if (root != null){
+            result.addAll(inorderTraversal(root.left)); // Traverse the left subtree
+            result.add(root.val); // Visite the Node without left child
+            result.addAll(inorderTraversal(root.right)); // Traverse the right subtree
+        }
         
-        inorderHelper(node.left, list);
-        list.add(node.val);
-        inorderHelper(node.right, list);
+        return result;
     }
 }
