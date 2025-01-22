@@ -26,20 +26,14 @@ class Solution {
             
             for (int i = 0; i < size; i ++){
                 TreeNode curr = queue.poll();
-                TreeNode left = (curr.left != null) ? curr.left : null;
-                TreeNode right = (curr.right != null) ? curr.right : null;
                 
-                list.add(curr.val);
+                list.add(curr.val); // Add current node's value to the list
                 
-                if (left != null) {
-                    queue.offer(left);
-                }
-                
-                if (right != null){
-                    queue.offer(right);
-                }
+                // Add left and right childern to the queue if they exists
+                if (curr.left != null) queue.offer(curr.left);
+                if (curr.right != null) queue.offer(curr.right);
             }
-            result.add(list);
+            result.add(list); // Add the current level to the list
         }
         
         return result;
