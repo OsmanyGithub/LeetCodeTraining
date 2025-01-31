@@ -15,10 +15,20 @@
  */
 class Solution {
     public int maxDepth(TreeNode root) {
-        if (root == null) return 0;
+        return dfs(root, 1);
+    }
+    
+    private int dfs(TreeNode node, int depth){
+        if (node == null){
+            return 0;
+        }
         
-        int leftDepth = maxDepth(root.left);
-        int rightDepth = maxDepth(root.right);
-        return Math.max(leftDepth, rightDepth) + 1;
+        if(node.right == null && node.left == null){
+            return depth;
+        }
+        
+        int leftDepth = dfs(node.left, depth + 1);
+        int rightDepth = dfs(node.right, depth + 1);
+        return Math.max(leftDepth, rightDepth);
     }
 }
